@@ -148,7 +148,8 @@ while True:
         
         #if 'the time' is heard in query, it will display time using datetime module    
         elif 'the time' in query:
-            strTime = datetime.datetime.now().strftime("% H:% M:% S")   
+            strTime = datetime.datetime.now()
+            print(f"The time is {strTime}")
             speak(f"The time is {strTime}")
             
         #if 'how are you' is heard in query, it says taht it is fine

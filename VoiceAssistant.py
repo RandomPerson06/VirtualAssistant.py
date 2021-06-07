@@ -151,100 +151,74 @@ while True:
          
         #if wikipedia is heard in the query, it will search wikipedia for the term given 
         if 'wikipedia' in query:
+            print("Searching Wikipedia...")
             speak('Searching Wikipedia...')
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences = 3)
+            print("According to Wikipedia...\n")
             speak("According to Wikipedia")
             print(results)
             speak(results)
 
         #if query strictly says to open youtube, it is done
         elif query == 'open youtube':
+            print("Opening Youtube...\n")
             speak("Opening Youtube...\n")
             webbrowser.get(browser).open("youtube.com")
 
         #if query strictly says to open google, it is done
         elif query == 'open google':
+            print("Opening Google...\n")
             speak("Opening Google.com\n")
             webbrowser.get(browser).open("google.com")
         
         #if 'the time' is heard in query, it will display time using datetime module    
         elif 'the time' in query:
-            strTime = datetime.datetime.now()
+            now = datetime.now()
+            strTime = now.strftime("%H:%M.%S")
             print(f"The time is {strTime}")
             speak(f"The time is {strTime}")
             
         #if 'how are you' is heard in query, it says taht it is fine
         elif 'how are you' in query:
-            speak("I am fine, Thank you")
+            print("I am fine, Thank You")
+            speak("I am fine, Thank You")
         
         #if anything is heard about it's name, it uses the assistantname var defined earlier
         elif "what's your name" in query or "What is your name" in query:
+            print("My friends call me", assistantname)
             speak("My friends call me")
             speak(assistantname)
-            print("My friends call me", assistantname)
             
         #if joke is heard, it gives a python joke
-        elif 'joke' in query:
-            speak(pyjokes.get_joke())
-        
-        #uses wolframapi to do calculations 
-        elif "calculate" in query:
-             
-            app_id = "Wolframalpha api id"
-            client = wolframalpha.Client(app_id)
-            indx = query.lower().split().index('calculate')
-            query = query.split()[indx + 1:]
-            res = client.query(' '.join(query))
-            answer = next(res.results).text
-            print("The answer is " + answer)
-            speak("The answer is " + answer)
-            
-        #uses browser settings defined arlier to search google
-        elif 'search' in query or 'play' in query:
-             
-            query = query.replace("search", "")
-            query = query.replace("play", "")         
-            webbrowser.get('browser').open(query)
-            
-        #uses json to get rss feed from Times of India
-        elif 'news' in query:
-             
-            try:
-                jsonObj = urlopen('''https://newsapi.org / v1 / articles?source = the-times-of-india&sortBy = top&apiKey =\\times of India Api key\\''')
-                data = json.load(jsonObj)
-                i = 1
-                 
-                speak('here are some top news from the times of india')
-                print('''=============== TIMES OF INDIA ============'''+ '\n')
-                 
-                for item in data['articles']:
-                     
-                    print(str(i) + '. ' + item['title'] + '\n')
-                    print(item['description'] + '\n')
-                    speak(str(i) + '. ' + item['title'] + '\n')
-                    i += 1
-            except Exception as e:
-                 
-                print(str(e))
+        elif 'python joke' in query:
+            joke = pyjokes.get_joke()
+            print(joke)
+            speak(joke)
                 
         #locks the laptop without closing anything
         elif 'lock device' in query:
-                speak("locking the device")
-                ctypes.windll.user32.LockWorkStation()
+            print("Locking device")
+            speak("locking the device")
+            ctypes.windll.user32.LockWorkStation()
  
         #shuts down system completely
         elif 'shutdown system' in query:
-                speak("Hold On a Sec ! Your system is on its way to shut down")
-                subprocess.call('shutdown / p /f')
+            print("Hold On a Sec ! Your system is on its way to shut down")
+            speak("Hold On a Sec ! Your system is on its way to shut down")
+            subprocess.call('shutdown / p /f')
                  
         #clears all items in recycle bin
         elif 'empty recycle bin' in query:
+            print("Recycling...")
+            speak("Recycling")
             winshell.recycle_bin().empty(confirm = False, show_progress = False, sound = True)
+            print("Recycle Bin Recycled")
             speak("Recycle Bin Recycled")
  
        #blocks bot from listening for a defined time asked in seconds
         elif "don't listen" in query or "stop listening" in query:
+            print("Alright. How long do you not want me to listen for?")
             speak("Alright. How long do you not want me to listen for?")
             a = int(takeCommand())
             time.sleep(a)
@@ -253,46 +227,26 @@ while True:
         #uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:
             query = query.replace("where is", "")
+            print("Searching for " + query + "on Google Maps")
+            speak("Searching for " + query + "on Google Maps")
             location = query
-            webbrowser.open("https://www.google.nl / maps / place/" + location + "")
+            webbrowser.open("https://www.google.com/maps/place/" + location)
          
         #restarts laptop   
         elif "restart laptop" in query:
+            print("Restarting...")
+            speak("Restarting")
             subprocess.call(["shutdown", "/r"])
              
         #puts computer to sleep
         elif "hibernate" in query or "sleep" in query:
-            speak("Hibernating")
+            print("Hibernating...")
+            speak("Hibernating...")
             subprocess.call("shutdown / h")
  
         #sings out, then logs off
         elif "log off" in query or "sign out" in query:
+            print("Make sure all the application are closed before sign-out")
             speak("Make sure all the application are closed before sign-out")
             time.sleep(5)
             subprocess.call(["shutdown", "/l"])
-            
-        #takes weather for a place using openweathermap API
-        elif "weather" in query:
-             
-            # Google Open weather website
-            # to get API of Open weather
-            api_key = "Api key"
-            base_url = "http://api.openweathermap.org / data / 2.5 / weather?"
-            speak(" City name ")
-            print("City name : ")
-            city_name = takeCommand()
-            complete_url = base_url + "appid =" + api_key + "&q =" + city_name
-            response = requests.get(complete_url)
-            x = response.json()
-             
-            if x["cod"] != "404":
-                y = x["main"]
-                current_temperature = y["temp"]
-                current_pressure = y["pressure"]
-                current_humidiy = y["humidity"]
-                z = x["weather"]
-                weather_description = z[0]["description"]
-                print(" Temperature (in kelvin unit) = " +str(current_temperature)+"\n atmospheric pressure (in hPa unit) ="+str(current_pressure) +"\n humidity (in percentage) = " +str(current_humidiy) +"\n description = " +str(weather_description))
-             
-            else:
-                speak(" City Not Found ")

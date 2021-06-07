@@ -48,7 +48,7 @@ from urllib.request import urlopen
 #browser settings for opening links
 chrome = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s'
-
+brave = 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s'
 
 #change edge to your main browser
 browser = edge
@@ -62,7 +62,7 @@ engine.setProperty("voice", voices[1].id)
 assistantname = ("google")
 
 #function for voice input 
-def speak(audio):
+def speak(audio=""):
     engine.say(audio)
     engine.runAndWait()
 
@@ -73,25 +73,27 @@ def wishMe():
     
     #if the received time is from 12:01AM to 11:59AM it says and prints "Good Morning"
     if hour >= 0 and hour < 12:
-        speak("Good Morning")
         print("Good Morning")
+        speak("Good Morning")
         
     #if the received time is from 12:00pm to 5:59pm it says and prints "Good Afternoon"
     elif hour >= 12 and hour < 18:
-        speak("Good Afternoon")
         print("Good Afternoon")
+        speak("Good Afternoon")
         
     #if the received time is from 6:00pm to 7:59pm it says and prints "Good Evening"
     elif hour >= 18 and hour < 20:
+        print("Good Evening")
         speak("Good Evening")
        
     #if it received any of the times not mentioned above, it just prints "Hello"  
     else:
+        print("Hello")
         speak("Hello")
     
     #Says and prints it's name
-    speak("I Am Your Assistant")
-    speak(assistantname)
+    print("I am Your Assistant, " + assistantname)
+    speak("I Am Your Assistant, " + assistantname)
 
 #the function used to take and process voice command
 def takeCommand():
@@ -140,7 +142,7 @@ if __name__ == '__main__':
 
     clear()
     wishMe()
-    
+        
 #once query is registered it is registered and processed here to give an output
 while True:
         
@@ -159,12 +161,12 @@ while True:
         #if query strictly says to open youtube, it is done
         elif query == 'open youtube':
             speak("Opening Youtube...\n")
-            webbrowser.get('chrome').open("youtube.com")
+            webbrowser.get(browser).open("youtube.com")
 
         #if query strictly says to open google, it is done
         elif query == 'open google':
             speak("Opening Google.com\n")
-            webbrowser.open("google.com")
+            webbrowser.get(browser).open("google.com")
         
         #if 'the time' is heard in query, it will display time using datetime module    
         elif 'the time' in query:
@@ -202,7 +204,7 @@ while True:
              
             query = query.replace("search", "")
             query = query.replace("play", "")         
-            webbrowser.open(query)
+            webbrowser.get('browser').open(query)
             
         #uses json to get rss feed from Times of India
         elif 'news' in query:

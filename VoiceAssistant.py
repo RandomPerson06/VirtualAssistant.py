@@ -148,7 +148,10 @@ while True:
         
         #query is moved to all lowercase for easier recognition by the API
         query = takeCommand().lower()
-         
+
+ ###--------------------------------------------Link Opening Commands--------------------------------------------###        
+
+
         #if wikipedia is heard in the query, it will search wikipedia for the term given 
         if 'wikipedia' in query:
             print("Searching Wikipedia...")
@@ -171,6 +174,27 @@ while True:
             print("Opening Google...\n")
             speak("Opening Google.com\n")
             webbrowser.get(browser).open("google.com")
+            
+        elif "play" in query and "on youtube" in query:
+            query = query.replace ("play", "")
+            query = query.replace ("on youtube", "")
+            print("Searching for " + query + "on Youtube")
+            speak("Searching for " + query + "on Youtube")
+            search = query
+            webbrowser.get(browser).open("https://www.youtube.com/results?search_query=" + search)
+            
+            
+        #uses webbrowser modules to open a maps.google.com site
+        elif "where is" in query:
+            query = query.replace("where is", "")
+            print("Searching for " + query + "on Google Maps")
+            speak("Searching for " + query + "on Google Maps")
+            location = query
+            webbrowser.get(browser).open("https://www.google.com/maps/place/" + location)
+        
+        
+###--------------------------------------------General Questions--------------------------------------------###
+        
         
         #if 'the time' is heard in query, it will display time using datetime module    
         elif 'the time' in query:
@@ -190,11 +214,19 @@ while True:
             speak("My friends call me")
             speak(assistantname)
             
+            
+###--------------------------------------------Fun Commands--------------------------------------------###
+        
+        
         #if joke is heard, it gives a python joke
         elif 'python joke' in query:
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
+                
+###--------------------------------------------Device Control--------------------------------------------###
+                
+                
                 
         #locks the laptop without closing anything
         elif 'lock device' in query:
@@ -212,10 +244,10 @@ while True:
         elif 'empty recycle bin' in query:
             print("Recycling...")
             speak("Recycling")
-            winshell.recycle_bin().empty(confirm = False, show_progress = False, sound = True)
+            winshell.recycle_bin().empty(confirm = True, show_progress = True, sound = True)
             print("Recycle Bin Recycled")
             speak("Recycle Bin Recycled")
- 
+
        #blocks bot from listening for a defined time asked in seconds
         elif "don't listen" in query or "stop listening" in query:
             print("Alright. How long do you not want me to listen for?")
@@ -223,14 +255,6 @@ while True:
             a = int(takeCommand())
             time.sleep(a)
             print(a)
-            
-        #uses webbrowser modules to open a maps.google.com site
-        elif "where is" in query:
-            query = query.replace("where is", "")
-            print("Searching for " + query + "on Google Maps")
-            speak("Searching for " + query + "on Google Maps")
-            location = query
-            webbrowser.open("https://www.google.com/maps/place/" + location)
          
         #restarts laptop   
         elif "restart laptop" in query:

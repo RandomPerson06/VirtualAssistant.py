@@ -183,6 +183,13 @@ while True:
             search = query
             webbrowser.get(browser).open("https://www.youtube.com/results?search_query=" + search)
             
+        elif "play" in query and "on spotify" in query:
+            query = query.replace("play", "")
+            query = query.replace("on spotify", "")
+            print("Searching Spotify for " + query)
+            speak("Searching spotify for " + query)
+            search = query
+            webbrowser.get(browser).open("https://www.open.spotify.com/search/" + search)
             
         #uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:

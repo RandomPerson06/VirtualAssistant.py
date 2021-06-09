@@ -54,7 +54,7 @@ edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s'
 brave = 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s'
 
 #*change edge to your main browser
-browser = chrome
+browser = edge
 
 #*sets var cg for easier execution of crypto related commands
 cg = CoinGeckoAPI()
@@ -181,11 +181,29 @@ while True:
         query = takeCommand().lower()
   #!#--------------------------------------------Link Opening Commands-------------------------------------------- #!#        
 
+        #*if query strictly says to open google, it is done
+        if query == 'open google':
+            print("Opening Google...\n")
+            speak("Opening Google.com\n")
+            webbrowser.get(browser).open("google.com")
+    
+        #*searches google
+        elif "search for" in query or "google" in query:
+            query = query.replace("search", "")
+            query = query.replace("search for", "")
+            query = query.replace("google", "")
+            query = query.replace("on chrome", "")
+            query = query.replace("on google", "")
+            print("Googling " + query)
+            speak("Googling " + query)
+            webbrowser.get(browser).open("https://www.google.com/search?q=" + query)
 
         #*if wikipedia is heard in the query, it will search wikipedia for the term given 
-        if 'wikipedia' in query:
+        elif 'wikipedia' in query:
             print("Searching Wikipedia...")
             speak('Searching Wikipedia...')
+            query = query.replace("search wikipedia for", "")
+            query = query.replace("search wikipedia", "")
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences = 3)
             print("According to Wikipedia...\n")
@@ -198,12 +216,6 @@ while True:
             print("Opening Youtube...\n")
             speak("Opening Youtube...\n")
             webbrowser.get(browser).open("youtube.com")
-
-        #*if query strictly says to open google, it is done
-        elif query == 'open google':
-            print("Opening Google...\n")
-            speak("Opening Google.com\n")
-            webbrowser.get(browser).open("google.com")
             
         elif "play" in query and "on youtube" in query:
             query = query.replace ("play", "")
@@ -219,9 +231,9 @@ while True:
             print("Searching Spotify for " + query)
             speak("Searching spotify for " + query)
             search = query
-            webbrowser.get(browser).open("https://www.open.spotify.com/search/" + search)
+            webbrowser.get(browser).open("https://open.spotify.com/search/" + search)
 
-        elif "play" in query and "on gaana" in query:
+        elif "play" in query and ("on gaana" or "on ganna" or "on gana")in query:
             query = query.replace("play", "")
             query = query.replace("on gaana", "")
             print("Searching Gaana for: " + query)
@@ -232,8 +244,8 @@ while True:
         #*uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:
             query = query.replace("where is", "")
-            print("Searching for " + query + "on Google Maps")
-            speak("Searching for " + query + "on Google Maps")
+            print("Searching for " + query + " on Google Maps")
+            speak("Searching for " + query + " on Google Maps")
             location = query
             webbrowser.open("https://www.google.com/maps/place/" + location)
         
@@ -246,18 +258,18 @@ while True:
             now = datetime.now()
             strTime = now.strftime("%H:%M.%S")
             print(f"The time is {strTime}")
-            speak(f"The time is {strTime}")
+            Time = now.strftime("%H:%M")
+            speak(f"The time is {Time}")
             
         #*if 'how are you' is heard in query, it says taht it is fine
-        elif 'how are you' in query:
+        elif 'how are you' in query or "how are you" in query or "hru" in query or "how r u" in query:
             print("I am fine, Thank You")
             speak("I am fine, Thank You")
         
         #*if anything is heard about it's name, it uses the assistantname var defined earlier
-        elif "what's your name" in query or "What is your name" in query:
+        elif "what's your name" in query or "what is your name" in query or "whats your name in query":
             print("My friends call me", assistantname)
-            speak("My friends call me")
-            speak(assistantname)
+            speak("My friends call me " + assistantname)
             
 
  #!#--------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#
@@ -275,7 +287,6 @@ while True:
                 print(query + " is currently worth " + str(price[currency]) + " " + currency)
                 speak(query + " is currently worth " + str(price[currency]) + " " + currency)
             except Exception as e:
-                print(e)
                 print("Sorry I couldn't find that currency on Coingecko")
                 speak("Sorry I couldn't find that currency on Coingecko")
                 
@@ -284,14 +295,10 @@ while True:
         
         
         #*if joke is heard, it gives a python joke
-        elif 'python joke' in query:
+        elif 'python joke' in query or "tell me a joke" in query:
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
-            
-        elif "you are trash" in query or "you're trash" in query or "you suck" in query:
-            print("Wow that's rude")
-            speak("wow that's rude")
             
         elif "connect4" in query or "connect 4" in query or "connect four" in query:
             print("Opening Connect 4")

@@ -305,14 +305,17 @@ while True:
             
             search = query.lower()
             
-            speak("Searching for price of " + search)
-            print("Searching for price of " + search)
-            cryptoprice = cg.get_price(ids=search, vs_currencies=currency)
-            price = cryptoprice[search]  
-            print(search + " is currently worth " + str(price[currency]) + " " + currency)
-            speak(search + " is currently worth " + str(price[currency]) + " " + currency)
-            
-            
+            try:
+                cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
+                price = cryptoprice[query]  
+                print(query + " is currently worth " + str(price[currency]) + " " + currency)
+                speak(query + " is currently worth " + str(price[currency]) + " " + currency)
+            except Exception as e:
+                print(e)
+                print("Sorry I couldn't find that currency on Coingecko")
+                speak("Sorry I couldn't find that currency on Coingecko")
+                
+
  #!#--------------------------------------------Fun Commands-------------------------------------------- #!#
         
         

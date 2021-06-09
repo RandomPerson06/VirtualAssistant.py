@@ -1,0 +1,23 @@
+subprocess
+pyttsx3
+json
+random
+operator
+speech_recognition as sr
+datetime
+wikipedia
+webbrowser
+os
+winshell
+pyjokes
+smtplib
+ctypes
+time
+requests
+shutil
+twilio
+BeautifulSoup
+win32com
+urllib
+turtle
+freegames

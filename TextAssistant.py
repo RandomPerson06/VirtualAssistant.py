@@ -268,10 +268,17 @@ while True:
             query = input("What crypto currency would you like to find the price of? \n")
             speak("Searching for price of " + query)
             print("Searching for price of " + query)
-            cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
-            price = cryptoprice[query]  
-            print(query + " is currently worth " + str(price[currency]) + " " + currency)
-            speak(query + " is currently worth " + str(price[currency]) + " " + currency)
+            
+            try:
+                cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
+                price = cryptoprice[query]  
+                print(query + " is currently worth " + str(price[currency]) + " " + currency)
+                speak(query + " is currently worth " + str(price[currency]) + " " + currency)
+            except Exception as e:
+                print(e)
+                print("Sorry I couldn't find that currency on Coingecko")
+                speak("Sorry I couldn't find that currency on Coingecko")
+                
 
  #!#--------------------------------------------Fun Commands-------------------------------------------- #!#
         

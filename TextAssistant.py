@@ -4,7 +4,7 @@ import subprocess
 import pyttsx3
 #json module is a javascrpit object decoder for python
 import json
-#random module for gicing random results
+#random module for giving random results
 import random
 #Python Arthimetic operators for math
 import operator
@@ -38,6 +38,10 @@ from bs4 import BeautifulSoup
 import win32com.client as wincl
 #module to open links
 from urllib.request import urlopen
+#turtle module for gui related commands
+from turtle import *
+#freegames module for simple games
+from freegames import line
 
 #browser settings for opening links
 chrome = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
@@ -94,6 +98,51 @@ def takeCommand():
      
     query = input("Enter Your Query:\n")
     return query
+
+def connect4():
+    turns = {'red': 'yellow', 'yellow': 'red'}
+    state = {'player': 'yellow', 'rows': [0] * 8}
+
+    def grid():
+        "Draw Connect Four grid."
+        bgcolor('light blue')
+
+        for x in range(-150, 200, 50):
+            line(x, -200, x, 200)
+
+        for x in range(-175, 200, 50):
+            for y in range(-175, 200, 50):
+                up()
+                goto(x, y)
+                dot(40, 'white')
+
+        update()
+
+    def tap(x, y):
+        "Draw red or yellow circle in tapped row."
+        player = state['player']
+        rows = state['rows']
+
+        row = int((x + 200) // 50)
+        count = rows[row]
+
+        x = ((x + 200) // 50) * 50 - 200 + 25
+        y = count * 50 - 200 + 25
+
+        up()
+        goto(x, y)
+        dot(40, player)
+        update()
+
+        rows[row] = count + 1
+        state['player'] = turns[player]
+
+    setup(420, 420, 370, 0)
+    hideturtle()
+    tracer(False)
+    grid()
+    onscreenclick(tap)
+    done()
 
 #The sendMail function below is still underprogress
 '''
@@ -213,6 +262,12 @@ while True:
         elif "you are trash" in query or "you're trash" in query or "you suck" in query:
             print("Wow that's rude")
             speak("wow that's rude")
+            
+        elif "connect4" in query or "connect 4" in query or "connect four" in query:
+            print("Opening Connect 4")
+            speak("Opening Connect Four")
+            speak("Connect 4 is now open. If you can't see it, please check for a new window")
+            connect4()
                 
 ###--------------------------------------------Device Control--------------------------------------------###
                 
@@ -257,7 +312,7 @@ while True:
             print("Hibernating...")
             speak("Hibernating...")
             subprocess.call("shutdown / h")
- 
+
         #sings out, then logs off
         elif "log off" in query or "sign out" in query:
             print("Make sure all the application are closed before sign-out")

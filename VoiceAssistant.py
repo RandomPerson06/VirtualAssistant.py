@@ -1,7 +1,5 @@
 #The subprocess module allows spawning of new processes, connecting to their input/output/error pipes, and obtaining their return codes.
 import subprocess
-#WolframAlpha is an API which can compute answers using Wolfram’s knowledgebase. It is made possible by the Wolfram Language.
-import wolframalpha
 #pyttsx3 is a python text to speech library.
 import pyttsx3
 #tkinter is a gui creator for python
@@ -148,7 +146,6 @@ while True:
         
         #query is moved to all lowercase for easier recognition by the API
         query = takeCommand().lower()
-
  ###--------------------------------------------Link Opening Commands--------------------------------------------###        
 
 
@@ -190,6 +187,14 @@ while True:
             speak("Searching spotify for " + query)
             search = query
             webbrowser.get(browser).open("https://www.open.spotify.com/search/" + search)
+
+        elif "play" in query and "on gaana" in query:
+            query = query.replace("play", "")
+            query = query.replace("on gaana", "")
+            print("Searching Gaana for: " + query)
+            speak("Searching Gaana for: " + query)
+            search = query
+            webbrowser.get(browser).open("https://gaana.com/search/" + search)
             
         #uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:
@@ -197,7 +202,7 @@ while True:
             print("Searching for " + query + "on Google Maps")
             speak("Searching for " + query + "on Google Maps")
             location = query
-            webbrowser.get(browser).open("https://www.google.com/maps/place/" + location)
+            webbrowser.open("https://www.google.com/maps/place/" + location)
         
         
 ###--------------------------------------------General Questions--------------------------------------------###
@@ -230,6 +235,10 @@ while True:
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
+            
+        elif "you are trash" in query or "you're trash" in query or "you suck" in query:
+            print("Wow that's rude")
+            speak("wow that's rude")
                 
 ###--------------------------------------------Device Control--------------------------------------------###
                 
@@ -251,10 +260,10 @@ while True:
         elif 'empty recycle bin' in query:
             print("Recycling...")
             speak("Recycling")
-            winshell.recycle_bin().empty(confirm = True, show_progress = True, sound = True)
+            winshell.recycle_bin().empty(confirm = False, show_progress = False, sound = True)
             print("Recycle Bin Recycled")
             speak("Recycle Bin Recycled")
-
+ 
        #blocks bot from listening for a defined time asked in seconds
         elif "don't listen" in query or "stop listening" in query:
             print("Alright. How long do you not want me to listen for?")
@@ -281,3 +290,7 @@ while True:
             speak("Make sure all the application are closed before sign-out")
             time.sleep(5)
             subprocess.call(["shutdown", "/l"])
+            
+        else:
+            print("I'm Sorry, I didn't quite get you")
+            speak("Im sorry, I didn't quite get you")

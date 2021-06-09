@@ -20,8 +20,6 @@ import os
 import winshell
 #python jokes
 import pyjokes
-#module to bring rss feeds for news
-import feedparser
 #smpt module to send mails
 import smtplib
 #binds c language data types
@@ -163,6 +161,14 @@ while True:
             speak("Searching spotify for " + query)
             search = query
             webbrowser.get(browser).open("https://www.open.spotify.com/search/" + search)
+
+        elif "play" in query and "on gaana" in query:
+            query = query.replace("play", "")
+            query = query.replace("on gaana", "")
+            print("Searching Gaana for: " + query)
+            speak("Searching Gaana for: " + query)
+            search = query
+            webbrowser.get(browser).open("https://gaana.com/search/" + search)
             
         #uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:
@@ -203,6 +209,10 @@ while True:
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
+            
+        elif "you are trash" in query or "you're trash" in query or "you suck" in query:
+            print("Wow that's rude")
+            speak("wow that's rude")
                 
 ###--------------------------------------------Device Control--------------------------------------------###
                 
@@ -254,3 +264,7 @@ while True:
             speak("Make sure all the application are closed before sign-out")
             time.sleep(5)
             subprocess.call(["shutdown", "/l"])
+            
+        else:
+            print("I'm Sorry, I didn't quite get you")
+            speak("Im sorry, I didn't quite get you")

@@ -69,7 +69,7 @@ engine.setProperty("voice", voices[1].id)
 #*sets a name for the assistant
 assistantname = ("Google")
 
-#*function for voice input 
+#*function for voice output 
 def speak(audio=""):
     engine.say(audio)
     engine.runAndWait()
@@ -189,11 +189,14 @@ while True:
     
         #*searches google
         elif "search for" in query or "google" in query:
-            query = query.replace("search", "")
+            query = query.replace("search google for", "")
+            query = query.replace("search google for", "")
             query = query.replace("search for", "")
-            query = query.replace("google", "")
+            query = query.replace("search", "")
             query = query.replace("on chrome", "")
             query = query.replace("on google", "")
+            query = query.replace("google", "")
+
             print("Googling " + query)
             speak("Googling " + query)
             webbrowser.get(browser).open("https://www.google.com/search?q=" + query)
@@ -204,6 +207,7 @@ while True:
             speak('Searching Wikipedia...')
             query = query.replace("search wikipedia for", "")
             query = query.replace("search wikipedia", "")
+            query = query.replace("on wikipedia", "")
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences = 3)
             print("According to Wikipedia...\n")
@@ -216,7 +220,7 @@ while True:
             print("Opening Youtube...\n")
             speak("Opening Youtube...\n")
             webbrowser.get(browser).open("youtube.com")
-            
+
         elif "play" in query and "on youtube" in query:
             query = query.replace ("play", "")
             query = query.replace ("on youtube", "")
@@ -233,9 +237,12 @@ while True:
             search = query
             webbrowser.get(browser).open("https://open.spotify.com/search/" + search)
 
-        elif "play" in query and ("on gaana" or "on ganna" or "on gana")in query:
+        elif "play" in query and ("on gaana" or "on gana" or "on ganna") in query:
             query = query.replace("play", "")
-            query = query.replace("on gaana", "")
+            query = query.replace("on", "")
+            query = query.replace("gaana", "")
+            query = query.replace("gana", "")
+            query = query.replace("ganna", "")
             print("Searching Gaana for: " + query)
             speak("Searching Gaana for: " + query)
             search = query
@@ -262,14 +269,14 @@ while True:
             speak(f"The time is {Time}")
             
         #*if 'how are you' is heard in query, it says taht it is fine
-        elif 'how are you' in query or "how are you" in query or "hru" in query or "how r u" in query:
+        elif 'how are you' in query:
             print("I am fine, Thank You")
             speak("I am fine, Thank You")
         
         #*if anything is heard about it's name, it uses the assistantname var defined earlier
-        elif "what's your name" in query or "what is your name" in query or "whats your name in query":
+        elif "what's your name" in query or "what is your name" in query:
             print("My friends call me", assistantname)
-            speak("My friends call me " + assistantname)
+            speak("My friends call me" + assistantname)
             
 
  #!#--------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#

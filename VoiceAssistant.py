@@ -1,4 +1,4 @@
-
+query = ''
 #*The subprocess module allows spawning of new processes, connecting to their input/output/error pipes, and obtaining their return codes.
 import subprocess
 #*pyttsx3 is a python text to speech library.
@@ -58,7 +58,7 @@ edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s'
 brave = 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s'
 
 #*change edge to your main browser
-browser = edge
+browser = brave
 
 #*sets var cg for easier execution of crypto related commands
 cg = CoinGeckoAPI()
@@ -73,7 +73,7 @@ engine.setProperty("voice", voices[1].id)
 #*sets a name for the assistant
 assistantname = ("Google")
 
-#*function for voice input 
+#*function for voice output 
 def speak(audio=""):
     engine.say(audio)
     engine.runAndWait()
@@ -134,7 +134,7 @@ def takeCommand():
         return "None"
      
     return query
-
+           
 def connect4():
     turns = {'red': 'yellow', 'yellow': 'red'}
     state = {'player': 'yellow', 'rows': [0] * 8}
@@ -215,11 +215,14 @@ while True:
     
         #*searches google
         elif "search for" in query or "google" in query:
-            query = query.replace("search", "")
+            query = query.replace("search google for", "")
+            query = query.replace("search google for", "")
             query = query.replace("search for", "")
-            query = query.replace("google", "")
+            query = query.replace("search", "")
             query = query.replace("on chrome", "")
             query = query.replace("on google", "")
+            query = query.replace("google", "")
+
             print("Googling " + query)
             speak("Googling " + query)
             webbrowser.get(browser).open("https://www.google.com/search?q=" + query)
@@ -230,13 +233,14 @@ while True:
             speak('Searching Wikipedia...')
             query = query.replace("search wikipedia for", "")
             query = query.replace("search wikipedia", "")
+            query = query.replace("on wikipedia", "")
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences = 3)
             print("According to Wikipedia...\n")
             speak("According to Wikipedia")
             print(results)
             speak(results)
-
+            
         #*if query strictly says to open youtube, it is done
         elif query == 'open youtube':
             print("Opening Youtube...\n")
@@ -261,13 +265,16 @@ while True:
 
         elif "play" in query and ("on gaana" or "on ganna" or "on gana")in query:
             query = query.replace("play", "")
-            query = query.replace("on gaana", "")
+            query = query.replace("on", "")
+            query = query.replace("gaana", "")
+            query = query.replace("gana", "")
+            query = query.replace("ganna", "")
             print("Searching Gaana for: " + query)
             speak("Searching Gaana for: " + query)
             search = query
             webbrowser.get(browser).open("https://gaana.com/search/" + search)
             
-        #*uses webbrowser modules to open a maps.google.com site
+        #*uses webbrowser modules to open a maps.google.com site 
         elif "where is" in query:
             query = query.replace("where is", "")
             print("Searching for " + query + " on Google Maps")
@@ -293,29 +300,36 @@ while True:
             speak("I am fine, Thank You")
         
         #*if anything is heard about it's name, it uses the assistantname var defined earlier
-        elif "what's your name" in query or "what is your name" in query or "whats your name in query":
+        elif "what's your name" in query or "what is your name" in query:
             print("My friends call me", assistantname)
-            speak("My friends call me " + assistantname)
+            speak("My friends call me ")
+            speak(assistantname)
             
-               
- #!#--------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#
+
+ #!#-------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#
             
             
         elif "price" in query:
             print("What crypto currency would you like to find the price of?")
             speak("What crypto currency would you like to find the price of?")
+    
             r = sr.Recognizer()
             with sr.Microphone() as source:
+                print("Listening...")
                 r.pause_threshold = 1
                 audio = r.listen(source)
   
             try:
+                #*uses google speech recognition API to register query
+                print("Recognizing...")   
                 query = r.recognize_google(audio, language ='en-in')
-            
+                query = query.lower()
+                print(f"User said: {query}\n")
+
             except Exception as e:
-                print("Unable to Recognize your voice.")
-            
-            search = query.lower()
+                #*if no voice is heard or is not able to understand, it prints "Unable to Recognize your voice" 
+                print(e)   
+                print("Unable to Recognize your voice.") 
             
             try:
                 cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
@@ -326,8 +340,6 @@ while True:
                 print(e)
                 print("Sorry I couldn't find that currency on Coingecko")
                 speak("Sorry I couldn't find that currency on Coingecko")
-                
-
  #!#--------------------------------------------Fun Commands-------------------------------------------- #!#
         
         

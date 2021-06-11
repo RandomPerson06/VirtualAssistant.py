@@ -312,25 +312,17 @@ while True:
         elif "price" in query:
             print("What crypto currency would you like to find the price of?")
             speak("What crypto currency would you like to find the price of?")
-    
-            r = sr.Recognizer()
-            with sr.Microphone() as source:
-                print("Listening...")
-                r.pause_threshold = 1
-                audio = r.listen(source)
-  
-            try:
-                #*uses google speech recognition API to register query
-                print("Recognizing...")   
-                query = r.recognize_google(audio, language ='en-in')
-                query = query.lower()
-                print(f"User said: {query}\n")
 
-            except Exception as e:
-                #*if no voice is heard or is not able to understand, it prints "Unable to Recognize your voice" 
-                print(e)   
-                print("Unable to Recognize your voice.") 
             
+            with sr.Microphone() as source:
+                sr.Recognizer().pause_threshold = 1
+                audio = sr.Recognizer().listen(source)
+            try:
+                query = sr.Recognizer().recognize_google(audio, language ='en-in')
+                query = query.lower()
+            except Exception as e:
+                print("Unable to Recognize your voice.")
+
             try:
                 cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
                 price = cryptoprice[query]  
@@ -386,13 +378,13 @@ while True:
             a = int(takeCommand())
             time.sleep(a)
             print(a)
-         
+            
         #*restarts laptop   
         elif "restart laptop" in query:
             print("Restarting...")
             speak("Restarting")
             subprocess.call(["shutdown", "/r"])
-             
+
         #*puts computer to sleep
         elif "hibernate" in query or "sleep" in query:
             print("Hibernating...")

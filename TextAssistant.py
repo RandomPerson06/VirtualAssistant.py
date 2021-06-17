@@ -1,4 +1,3 @@
-
 #*The subprocess module allows spawning of new processes, connecting to their input/output/error pipes, and obtaining their return codes.
 import subprocess
 #*pyttsx3 is a python text to speech library.
@@ -53,19 +52,18 @@ chrome = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s'
 brave = 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s'
 
-#*change edge to your main browser
-browser = edge
-
 #*sets var cg for easier execution of crypto related commands
 cg = CoinGeckoAPI()
 #*default currency setting for crypto prices
 currency = 'usd'
 
+#?change voice_setting to 0 for a male voice or 1 for a female voice
+voice_setting = 1
 #*Sets tts settings such as output voice and input type
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
-#*sets output voice to male or female. voices[1] is for female, whereas it can be changed to voices[0] for male
-engine.setProperty("voice", voices[1].id)
+#*sets output voice to male or female.
+engine.setProperty("voice", voices[voice_setting].id)
 #*sets a name for the assistant
 assistantname = ("Google")
 
@@ -110,6 +108,7 @@ def takeCommand():
     return query
 
 def connect4():
+    #*The connect 4 command was not made by me. It is one of the default open source games from the freegames python library
     turns = {'red': 'yellow', 'yellow': 'red'}
     state = {'player': 'yellow', 'rows': [0] * 8}
 
@@ -179,6 +178,10 @@ while True:
         
         #*query is moved to all lowercase for easier recognition by the API
         query = takeCommand().lower()
+        
+        #*change edge to your main browser
+        browser = edge
+
   #!#--------------------------------------------Link Opening Commands-------------------------------------------- #!#        
 
         #*if query strictly says to open google, it is done
@@ -189,7 +192,6 @@ while True:
     
         #*searches google
         elif "search for" in query or "google" in query:
-            query = query.replace("search google for", "")
             query = query.replace("search google for", "")
             query = query.replace("search for", "")
             query = query.replace("search", "")
@@ -205,8 +207,10 @@ while True:
         elif 'wikipedia' in query:
             print("Searching Wikipedia...")
             speak('Searching Wikipedia...')
+            query = query.replace("what does", "")
             query = query.replace("search wikipedia for", "")
             query = query.replace("search wikipedia", "")
+            query = query.replace("search for", "")
             query = query.replace("on wikipedia", "")
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences = 3)
@@ -221,7 +225,7 @@ while True:
             speak("Opening Youtube...\n")
             webbrowser.get(browser).open("youtube.com")
 
-        elif "play" in query and "on youtube" in query:
+        elif ("play" in query or "search for" in query) and "on youtube" in query:
             query = query.replace ("play", "")
             query = query.replace ("on youtube", "")
             print("Searching for " + query + "on Youtube")
@@ -229,7 +233,7 @@ while True:
             search = query
             webbrowser.get(browser).open("https://www.youtube.com/results?search_query=" + search)
             
-        elif "play" in query and "on spotify" in query:
+        elif ("play" in query or "search for") and "on spotify" in query:
             query = query.replace("play", "")
             query = query.replace("on spotify", "")
             print("Searching Spotify for " + query)
@@ -237,7 +241,7 @@ while True:
             search = query
             webbrowser.get(browser).open("https://open.spotify.com/search/" + search)
 
-        elif "play" in query and ("on gaana" or "on gana" or "on ganna") in query:
+        elif ("play" in query or "search for") and ("on gaana" or "on gana" or "on ganna") in query:
             query = query.replace("play", "")
             query = query.replace("on", "")
             query = query.replace("gaana", "")
@@ -269,24 +273,27 @@ while True:
             speak(f"The time is {Time}")
             
         #*if 'how are you' is heard in query, it says taht it is fine
-        elif 'how are you' in query:
+        elif 'how are you' in query or "how are you" in query or "hru" in query or "how r u" in query:
             print("I am fine, Thank You")
             speak("I am fine, Thank You")
         
         #*if anything is heard about it's name, it uses the assistantname var defined earlier
         elif "what's your name" in query or "what is your name" in query:
             print("My friends call me", assistantname)
-            speak("My friends call me" + assistantname)
+            speak("My friends call me ")
+            speak(assistantname)
             
 
  #!#--------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#
 
 
         elif "price" in query:
+            print("What crypto currency would you like to find the price of?")
             speak("What crypto currency would you like to find the price of?")
-            query = input("What crypto currency would you like to find the price of? \n")
-            speak("Searching for price of " + query)
+            query = input("Input: ")
+            query = query.lower()
             print("Searching for price of " + query)
+            speak("Searching for price of " + query)
             
             try:
                 cryptoprice = cg.get_price(ids=query, vs_currencies=currency)
@@ -338,7 +345,7 @@ while True:
             speak("Recycle Bin Recycled")
  
        #*blocks bot from listening for a defined time asked in seconds
-        elif "don't listen" in query or "stop listening" in query:
+        elif "don't listen" in query or "stop listening" in query or "dont listen" in query:
             print("Alright. How long do you not want me to listen for?")
             speak("Alright. How long do you not want me to listen for?")
             a = int(takeCommand())
@@ -364,6 +371,70 @@ while True:
             time.sleep(5)
             subprocess.call(["shutdown", "/l"])
             
+            
+ #!#--------------------------------------------Assistant Settings-------------------------------------------- #!#
+
+
+        elif query == "settings" or query == "assistant settings":
+            print("What settings would you like to change? You can also input 'help' to see all the settings or 'cancel' to go back to the assistant")
+            speak("What settings would you like to change?")
+            query = input("Input: ")
+            query = query.lower()
+            if query == 'help':
+                print("You can change the settings of my voice, default currency, default browser and my name. The settings will be printed into the output terminal shortly")
+                speak("You can change the settings of my voice, default currency, default browser and my name. The settings will be printed into the output terminal shortly")
+                
+                print("Voice Settings: input 'voice settings' or 'voice'. More details will be given upon initiating the setting. \n")
+                print("Browser Settings: input 'browser settings' or 'browser'. More details will be given upon initiating the setting \n")
+                print("Currency Settings: input 'currency settings' or 'currency'. More details will be given upon initiating the setting \n")
+                print("Name Settings: input 'name settings' or 'name'. More details will be given upon initiating the setting \n")
+                
+                
+            elif query == "voice settings" or query == "voice":
+                print("Sorry, but my voice settings can only be changed directly from the source code. Please go to line 65. More information is given on line 64.")
+                speak("Sorry, but my voice settings can only be changed directly from the source code. Please go to line 65. More information is given on line 64.")
+            
+            elif query == "currency settings" or query == "currency" or query == "currency setting":
+                print("Currency can be changed to any standard 3 letter currency abbreviation")
+                speak("Currency can be changed to any standard 3 letter currency abbreviation")
+                query = str(input(""))
+                query = query.lower()
+                currency = query
+                print(currency)
+                print("Attempted to change currency. Please do the crypto currency command to check if it is a valid code")
+                speak("Attempted to change currency. Please do the crypto currency command to check if it is a valid code")
+                    
+            elif query == "browser setting" or query == "browser" or query == "browser settings":
+                print("The default browser can be set to Chrome, Edge or Brave. To request other browsers, please open a new issue on Github ")
+                speak("The default browser can be set to Chrome, Edge or Brave.")
+                print("Please input what you would like to change it to: \n")
+                speak("Please input what you would like to change it to: \n")
+                query = input("Input: ")
+                query = query.lower()
+                browser = query
+                print("Successfully Attempted to change browser")
+                speak("Successfully Attempted to change browser")
+                
+            elif query == "name setting" or query == "name settings" or query == "name":
+                print("My name can be set to anything you want!")
+                speak("My name can be set to anything you want!")
+                query = input("My New Name: ")
+                assistantname = query
+                print("Succesfully set new name!")
+                speak("Succesfully set new name!")
+                
+            elif query == 'cancel':
+                speak("Ok, returning back to Assistant")
+                print("Ok, returning back to Assistant")
+                
+            else:
+                print("I'm sorry. I couldn't understand that. Returning back to Assistant mode")
+                speak("Im sorry. I couldnt understand that. Returning back to Assistant mode")
+
+
+ #!#--------------------------------------------End Point-------------------------------------------- #!#
+
+ 
         else:
             print("I'm Sorry, I didn't quite get you")
             speak("Im sorry, I didn't quite get you")

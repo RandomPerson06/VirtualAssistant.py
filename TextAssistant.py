@@ -290,7 +290,19 @@ while True:
 
  #!#--------------------------------------------Cryptocurrency Commands-------------------------------------------- #!#
 
+      
+        elif "bitcoin price" in query or "price of bitcoin" in query or "btc price" in query or "price of btc" in query:
+            cryptoprice = cg.get_price(ids="bitcoin", vs_currencies=currency)
+            price = cryptoprice["bitcoin"]  
+            print("Bitcoin"+ " is currently worth " + str(price[currency]) + " " + currency)
+            speak("Bitcoin" + " is currently worth " + str(price[currency]) + " " + currency)
 
+        elif "ethereum price" in query or "price of ethereum" in query or "eth price" in query or "price of eth" in query:
+            cryptoprice = cg.get_price(ids="ethereum", vs_currencies=currency)
+            price = cryptoprice["ethereum"]  
+            print("Ethereum"+ " is currently worth " + str(price[currency]) + " " + currency)
+            speak("Ethereum" + " is currently worth " + str(price[currency]) + " " + currency)
+            
         elif "price" in query:
             print("What crypto currency would you like to find the price of?")
             speak("What crypto currency would you like to find the price of?")
@@ -307,7 +319,7 @@ while True:
             except Exception as e:
                 print("Sorry I couldn't find that currency on Coingecko")
                 speak("Sorry I couldn't find that currency on Coingecko")
-                
+                             
 
  #!#--------------------------------------------Fun Commands-------------------------------------------- #!#
         

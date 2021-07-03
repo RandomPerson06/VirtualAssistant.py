@@ -1,3 +1,4 @@
+
 #*The subprocess module allows spawning of new processes, connecting to their input/output/error pipes, and obtaining their return codes.
 import subprocess
 #*pyttsx3 is a python text to speech library.
@@ -8,8 +9,6 @@ import json
 import random
 #*Python Arthimetic operators for math
 import operator
-#*Python Speech Recognition library
-import speech_recognition as sr
 #*datetime module to give the date and time
 from datetime import datetime
 #*wikipedia module to give defenitions
@@ -30,8 +29,6 @@ import time
 import requests
 #*module to edit folder data
 import shutil
-#*twilio module to connect to twilio API, used to receive and send sms, voice calls, etc
-from twilio.rest import Client
 #*Python web scraper
 from bs4 import BeautifulSoup
 #*module for windows application automation
@@ -191,7 +188,7 @@ while True:
             webbrowser.get(browser).open("google.com")
     
         #*searches google
-        elif "search for" in query or "google" in query:
+        elif "search for" in query and "google" in query:
             query = query.replace("search google for", "")
             query = query.replace("search for", "")
             query = query.replace("search", "")
@@ -251,6 +248,13 @@ while True:
             speak("Searching Gaana for: " + query)
             search = query
             webbrowser.get(browser).open("https://gaana.com/search/" + search)
+            
+        elif "search for" in query:
+            query = query.replace("search for", "")
+            print ("Searching for: " + query)
+            speak("Searching for: " + query)
+            search = query
+            webbrowser.get(browser).open("https://www.google.com/search?q=" + query) 
             
         #*uses webbrowser modules to open a maps.google.com site
         elif "where is" in query:

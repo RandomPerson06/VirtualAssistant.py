@@ -263,7 +263,7 @@ while True:
             speak("Searching for " + query + " on Google Maps")
             location = query
             webbrowser.open("https://www.google.com/maps/place/" + location)
-            
+        
         elif "open" and "binance" in query:
             print("Opening Binance")
             speak("Opening Binance")
@@ -383,20 +383,28 @@ while True:
         #*locks the laptop without closing anything
         elif 'lock device' in query:
             print("Locking device")
-            speak("locking the device")
+            speak("locking device")
             ctypes.windll.user32.LockWorkStation()
  
         #*shuts down system completely
         elif 'shutdown system' in query:
-            print("Hold On a Sec ! Your system is on its way to shut down")
-            speak("Hold On a Sec ! Your system is on its way to shut down")
-            subprocess.call('shutdown / p /f')
+            print("Are you sure you want to shut down?")
+            speak("Are you sure you want to shut down?")
+            query = input("Input: ")
+            if query == "y" or "yes" or "sure" or "k" or "ok":
+                print("Hold On a Sec ! Your system is on its way to shut down")
+                speak("Hold On a Sec ! Your system is on its way to shut down")
+                subprocess.call('shutdown / p /f')
+            else:
+                print("Cancelled")
+                speak("Cancelled")
+                
                  
         #*clears all items in recycle bin
         elif 'empty recycle bin' in query:
             print("Recycling...")
             speak("Recycling")
-            winshell.recycle_bin().empty(confirm = False, show_progress = False, sound = True)
+            winshell.recycle_bin().empty(confirm = False, show_progress = True, sound = True)
             print("Recycle Bin Recycled")
             speak("Recycle Bin Recycled")
  
@@ -410,9 +418,16 @@ while True:
          
         #*restarts laptop   
         elif "restart laptop" in query:
-            print("Restarting...")
-            speak("Restarting")
-            subprocess.call(["shutdown", "/r"])
+            print("Are you sure you want to restart?")
+            speak("Are you sure you want to restart?")
+            query = input("Input: ")
+            if query == "y" or "yes" or "sure" or "k" or "ok":
+                print("Restarting...")
+                speak("Restarting")
+                subprocess.call(["shutdown", "/r"])
+            else:
+                print("Cancelled")
+                speak("Cancelled")
              
         #*puts computer to sleep
         elif "hibernate" in query or "sleep" in query:
@@ -422,10 +437,16 @@ while True:
 
         #*sings out, then logs off
         elif "log off" in query or "sign out" in query:
-            print("Make sure all the application are closed before sign-out")
-            speak("Make sure all the application are closed before sign-out")
-            time.sleep(5)
-            subprocess.call(["shutdown", "/l"])
+            print("Are you sure you want to Sign out?")
+            speak("Are you sure you want to Sign out?")
+            query = input("Input: ")
+            if query == "y" or "yes" or "sure" or "k" or "ok":
+                print("Logging out")
+                speak("Logging out")
+                subprocess.call(["shutdown", "/l"])
+            else:
+                print("Cancelled")
+                speak("Cancelled")
             
             
  #!#--------------------------------------------Assistant Settings-------------------------------------------- #!#
@@ -447,8 +468,15 @@ while True:
                 
                 
             elif query == "voice settings" or query == "voice":
-                print("Sorry, but my voice settings can only be changed directly from the source code. Please go to line 65. More information is given on line 64.")
-                speak("Sorry, but my voice settings can only be changed directly from the source code. Please go to line 65. More information is given on line 64.")
+                print("Sorry, but my voice settings can only be changed directly from the source code. Would you like to know how to change it?")
+                speak("Sorry, but my voice settings can only be changed directly from the source code. Would you like to know how to change it?")
+                query = input("Input: ")
+                if query == "y" or "yes" or "sure" or "k" or "ok":
+                    print("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
+                    speak("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
+                else:
+                    print("Ok. Returning back to assistant mode")
+                    speak("Ok. Returning back to assistant mode")
             
             elif query == "currency settings" or query == "currency" or query == "currency setting":
                 print("Currency can be changed to any standard 3 letter currency abbreviation")
@@ -456,20 +484,19 @@ while True:
                 query = str(input(""))
                 query = query.lower()
                 currency = query
-                print(currency)
                 print("Attempted to change currency. Please do the crypto currency command to check if it is a valid code")
                 speak("Attempted to change currency. Please do the crypto currency command to check if it is a valid code")
                     
             elif query == "browser setting" or query == "browser" or query == "browser settings":
-                print("The default browser can be set to Chrome, Edge or Brave. To request other browsers, please open a new issue on Github ")
-                speak("The default browser can be set to Chrome, Edge or Brave.")
-                print("Please input what you would like to change it to: \n")
-                speak("Please input what you would like to change it to: \n")
+                print("Sorry, but my browser settings can only be changed directly from the source code. Would you like to know how to change it?")
+                speak("Sorry, but my browser settings can only be changed directly from the source code. Would you like to know how to change it?")
                 query = input("Input: ")
-                query = query.lower()
-                browser = query
-                print("Successfully Attempted to change browser")
-                speak("Successfully Attempted to change browser")
+                if query == "y" or "yes" or "sure" or "k" or "ok":
+                    print("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
+                    speak("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
+                else:
+                    print("Ok. Returning back to assistant mode")
+                    speak("Ok. Returning back to assistant mode")            
                 
             elif query == "name setting" or query == "name settings" or query == "name":
                 print("My name can be set to anything you want!")
@@ -492,5 +519,13 @@ while True:
 
  
         else:
-            print("I'm Sorry, I didn't quite get you")
-            speak("Im sorry, I didn't quite get you")
+            print("I'm Sorry, I didn't quite get you. Would you like to add this feature?")
+            speak("I'm Sorry, I didn't quite get you. Would you like to add this feature?")
+            query = input("Input: ")
+            if query == "y" or "yes" or "sure" or "k" or "ok":
+                print("Ok. Please open a issue on github and the feature will be added as soon as possible")
+                speak("Ok. Please open a issue on github and the feature will be added as soon as possible")
+                webbrowser.get(browser).open("https://github.com/RandomPerson06/VirtualAssistant.py/issues/new")
+            else:
+                print("Ok. Returning back to assistant mode")
+                speak("Ok. Returning back to assistant mode")

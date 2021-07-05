@@ -263,8 +263,48 @@ while True:
             speak("Searching for " + query + " on Google Maps")
             location = query
             webbrowser.open("https://www.google.com/maps/place/" + location)
+            
+        elif "open" and "binance" in query:
+            print("Opening Binance")
+            speak("Opening Binance")
+            webbrowser.get(browser).open("https://www.binance.com")
         
+        elif "open" and "github" in query:
+            print("Opening Github")
+            speak("Opening Github")
+            webbrowser.get(browser).open("https://www.github.com")
+            
+        elif "open" and "instagram" in query:
+            print("Opening Instagram")
+            speak("Opening Instagram")
+            webbrowser.get(browser).open("https://www.instagram.com")
+            
+        elif "open" and "twitter" in query:
+            print("Opening Twitter")
+            speak("Opening Twitter")
+            webbrowser.get(browser).open("https://www.twitter.com")
         
+        elif "open" and "facebook" in query:
+            print("Opening")
+            speak("Opening")
+            webbrowser.get(browser).open("https://www.facebook.com")
+            
+        elif "open" and "discord" in query:
+            print("Opening Discord")
+            speak("Opening Discord")
+            webbrowser.get(browser).open("https://discord.com/channels/@me")
+            
+        elif "open" and "whatsapp" in query:
+            print("Opening Whatsapp")
+            speak("Opening Whatsapp")
+            webbrowser.get(browser).open("https://web.whatsapp.com")
+        
+        elif "open" and ("mail" or "gmail") in query:
+            print("Opening Mail")
+            speak("Opening Mail")
+            webbrowser.get(browser).open("https://gmail.com")
+            
+            
  #!#--------------------------------------------General Questions-------------------------------------------- #!#
         
         

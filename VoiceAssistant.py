@@ -53,6 +53,8 @@ from pycoingecko import CoinGeckoAPI
 chrome = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 edge = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe %s'
 brave = 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe %s'
+username = ''
+password = ''
 
 #*sets var cg for easier execution of crypto related commands
 cg = CoinGeckoAPI()
@@ -130,65 +132,6 @@ def takeCommand():
         return "None"
      
     return query
-           
-def connect4():
-    #*The connect 4 command was not made by me. It is one of the default open source games from the freegames python library
-    turns = {'red': 'yellow', 'yellow': 'red'}
-    state = {'player': 'yellow', 'rows': [0] * 8}
-
-    def grid():
-        "Draw Connect Four grid."
-        bgcolor('light blue')
-
-        for x in range(-150, 200, 50):
-            line(x, -200, x, 200)
-
-        for x in range(-175, 200, 50):
-            for y in range(-175, 200, 50):
-                up()
-                goto(x, y)
-                dot(40, 'white')
-
-        update()
-
-    def tap(x, y):
-        "Draw red or yellow circle in tapped row."
-        player = state['player']
-        rows = state['rows']
-
-        row = int((x + 200) // 50)
-        count = rows[row]
-
-        x = ((x + 200) // 50) * 50 - 200 + 25
-        y = count * 50 - 200 + 25
-
-        up()
-        goto(x, y)
-        dot(40, player)
-        update()
-
-        rows[row] = count + 1
-        state['player'] = turns[player]
-
-    setup(420, 420, 370, 0)
-    hideturtle()
-    tracer(False)
-    grid()
-    onscreenclick(tap)
-    done()
-
-#*The sendMail function below is still underprogress
-'''
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-     
-    #* Enable low security in gmail
-    server.login('your email id', 'your email password')
-    server.sendmail('your email id', to, content)
-    server.close()
-'''
 
 #*clears previous text from terminal and executes the Greeting function
 if __name__ == '__main__':
@@ -257,7 +200,7 @@ while True:
             search = query
             webbrowser.get(browser).open("https://www.youtube.com/results?search_query=" + search)
             
-        elif ("play" in query or "search for") and "on spotify" in query:
+        elif ("play" in query or "search for" in query) and "on spotify" in query:
             query = query.replace("play", "")
             query = query.replace("on spotify", "")
             print("Searching Spotify for " + query)
@@ -265,7 +208,7 @@ while True:
             search = query
             webbrowser.get(browser).open("https://open.spotify.com/search/" + search)
 
-        elif ("play" in query or "search for") and ("on gaana" or "on gana" or "on ganna") in query:
+        elif ("play" in query or "search for" in query) and ("on gaana" or "on gana" or "on ganna") in query:
             query = query.replace("play", "")
             query = query.replace("on", "")
             query = query.replace("gaana", "")
@@ -292,47 +235,134 @@ while True:
             location = query
             webbrowser.open("https://www.google.com/maps/place/" + location)
             
-        elif "open" and "binance" in query:
+        elif "open" in query and "binance" in query:
             print("Opening Binance")
             speak("Opening Binance")
             webbrowser.get(browser).open("https://www.binance.com")
         
-        elif "open" and "github" in query:
+        elif "open" in query and "github" in query:
             print("Opening Github")
             speak("Opening Github")
             webbrowser.get(browser).open("https://www.github.com")
             
-        elif "open" and "instagram" in query:
+        elif "open" in query  and "instagram" in query:
             print("Opening Instagram")
             speak("Opening Instagram")
             webbrowser.get(browser).open("https://www.instagram.com")
             
-        elif "open" and "twitter" in query:
+        elif "open" in query  and "twitter" in query:
             print("Opening Twitter")
             speak("Opening Twitter")
             webbrowser.get(browser).open("https://www.twitter.com")
         
-        elif "open" and "facebook" in query:
+        elif "open" in query  and "facebook" in query:
             print("Opening")
             speak("Opening")
             webbrowser.get(browser).open("https://www.facebook.com")
             
-        elif "open" and "discord" in query:
+        elif "open" in query and "discord" in query:
             print("Opening Discord")
             speak("Opening Discord")
             webbrowser.get(browser).open("https://discord.com/channels/@me")
             
-        elif "open" and "whatsapp" in query:
+        elif "open" in query  and "whatsapp" in query:
             print("Opening Whatsapp")
             speak("Opening Whatsapp")
             webbrowser.get(browser).open("https://web.whatsapp.com/")
         
-        elif "open" and ("mail" or "gmail") in query:
+        elif "open" in query and ("mail" or "gmail") in query:
             print("Opening Mail")
             speak("Opening Mail")
             webbrowser.get(browser).open("https://gmail.com")
 
-        
+
+ #!#--------------------------------------------High Intensity Commands-------------------------------------------- #!#
+
+
+        elif "connect4" in query or "connect 4" in query or "connect four" in query:
+            print("Opening Connect 4")
+            speak("Opening Connect Four")
+            speak("Connect 4 is now open. If you can't see it, please check for a new window")
+            def connect4():
+                #*The connect 4 command was not made by me. It is one of the default open source games from the freegames python library
+                turns = {'red': 'yellow', 'yellow': 'red'}
+                state = {'player': 'yellow', 'rows': [0] * 8}
+
+                def grid():
+                    "Draw Connect Four grid."
+                    bgcolor('light blue')
+
+                    for x in range(-150, 200, 50):
+                        line(x, -200, x, 200)
+
+                    for x in range(-175, 200, 50):
+                        for y in range(-175, 200, 50):
+                            up()
+                            goto(x, y)
+                            dot(40, 'white')
+
+                    update()
+
+                def tap(x, y):
+                    "Draw red or yellow circle in tapped row."
+                    player = state['player']
+                    rows = state['rows']
+
+                    row = int((x + 200) // 50)
+                    count = rows[row]
+
+                    x = ((x + 200) // 50) * 50 - 200 + 25
+                    y = count * 50 - 200 + 25
+
+                    up()
+                    goto(x, y)
+                    dot(40, player)
+                    update()
+
+                    rows[row] = count + 1
+                    state['player'] = turns[player]
+
+                setup(420, 420, 370, 0)
+                hideturtle()
+                tracer(False)
+                grid()
+                onscreenclick(tap)
+                done()
+                
+            connect4()
+            
+        elif "send" in query and "mail" in query:
+            print("Voice recognition is not supported for mail yet. Please check the terminal for sending a mail")
+            speak("Voice recognition is not supported for mail yet. Please check the terminal for sending a mail")
+            if (username != "") and (password != ""):
+                def sendEmail(to, content):
+                    server = smtplib.SMTP('smtp.gmail.com', 587)
+                    server.ehlo()
+                    server.starttls()
+     
+                    server.login(username, password)
+                    server.sendmail(username, to, content)
+                    server.close()
+                print("Enter Recipient's address")
+                speak("Enter Recipient's address")
+                to = input("Recipient's Address: ")
+                print("Enter the message")
+                speak("Enter the message")
+                content = input("Content: ")
+                try:
+                    sendEmail(to, content)
+                    print("Mail Sent!")
+                    speak("Mail Sent!")
+                except:
+                    print("Error sending email. Please go to https://www.google.com/settings/security/lesssecureapps and enable low security apps")
+                    speak("Error sending email. Please go to https://www.google.com/settings/security/lesssecureapps and enable low security apps")
+            else:
+                print("It seems like you have not logged in. Please enter your username and password below")
+                speak("It seems like you have not logged in. Please enter your username and password below")
+                username = input("Username: ")
+                password = input("Password: ")
+                
+                
  #!#--------------------------------------------General Questions-------------------------------------------- #!#
         
             
@@ -399,12 +429,6 @@ while True:
             joke = pyjokes.get_joke()
             print(joke)
             speak(joke)
-            
-        elif "connect4" in query or "connect 4" in query or "connect four" in query:
-            print("Opening Connect 4")
-            speak("Opening Connect Four")
-            speak("Connect 4 is now open. If you can't see it, please check for a new window")
-            connect4()
                 
  #!#--------------------------------------------Device Control-------------------------------------------- #!#
                 
@@ -429,7 +453,7 @@ while True:
                      query = query.lower()
             except Exception as e:
                  print("Unable to Recognize your voice.")
-            if query == "y" or "yes" or "sure" or "k" or "ok":
+            if query == ("y" or "yes" or "sure" or "k" or "ok"):
                 print("Hold On a Sec ! Your system is on its way to shut down")
                 speak("Hold On a Sec ! Your system is on its way to shut down")
                 subprocess.call('shutdown / p /f')
@@ -467,7 +491,7 @@ while True:
                      query = query.lower()
             except Exception as e:
                  print("Unable to Recognize your voice.")
-            if query == "y" or "yes" or "sure" or "k" or "ok":
+            if query == ("y" or "yes" or "sure" or "k" or "ok"):
                 print("Restarting...")
                 speak("Restarting")
                 subprocess.call(["shutdown", "/r"])
@@ -494,7 +518,7 @@ while True:
                      query = query.lower()
             except Exception as e:
                  print("Unable to Recognize your voice.")
-            if query == "y" or "yes" or "sure" or "k" or "ok":
+            if query == ("y" or "yes" or "sure" or "k" or "ok"):
                 print("Logging out")
                 speak("Logging out")
                 subprocess.call(["shutdown", "/l"])
@@ -542,7 +566,7 @@ while True:
                      query = query.lower()
                 except Exception as e:
                     print("Unable to Recognize your voice.")                
-                if query == "y" or "yes" or "sure" or "k" or "ok":
+                if query == ("y" or "yes" or "sure" or "k" or "ok"):
                     print("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
                     speak("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
                 else:
@@ -581,7 +605,7 @@ while True:
                      query = query.lower()
                 except Exception as e:
                     print("Unable to Recognize your voice.")
-                if query == "y" or "yes" or "sure" or "k" or "ok":
+                if query == ("y" or "yes" or "sure" or "k" or "ok"):
                     print("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
                     speak("Ok. Go to line 58, and change the voice_setting to 0 for a male voice and 1 for a female voice. More voices will come in the future")
                 else:
@@ -634,9 +658,9 @@ while True:
             try:
                      query = sr.Recognizer().recognize_google(audio, language ='en-in')
                      query = query.lower()
-            except ExceptiBug Fixon as e:
+            except Exception as e:
                     print("Unable to Recognize your voice.")
-            if query == "y" or "yes" or "sure" or "k" or "ok":
+            if query == ("y" or "yes" or "sure" or "k" or "ok"):
                 print("Ok. Please open a issue on github and the feature will be added as soon as possible")
                 speak("Ok. Please open a issue on github and the feature will be added as soon as possible")
                 webbrowser.get(browser).open("https://github.com/RandomPerson06/VirtualAssistant.py/issues/new")

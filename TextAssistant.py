@@ -131,7 +131,7 @@ while True:
             webbrowser.get(browser).open("google.com")
     
         #*searches google
-        elif "search for" in query and "google" in query:
+        elif ("search for" in query and ("google" or "chrome" in query)):
             query = query.replace("search google for", "")
             query = query.replace("search for", "")
             query = query.replace("search", "")
@@ -181,7 +181,7 @@ while True:
             search = query
             webbrowser.get(browser).open("https://open.spotify.com/search/" + search)
 
-        elif ("play" in query or "search for") and ("on gaana" or "on gana" or "on ganna") in query:
+        elif ("play" or "search for" in query) and ("on gaana" or "on gana" or "on ganna" in query):
             query = query.replace("play", "")
             query = query.replace("on", "")
             query = query.replace("gaana", "")
@@ -211,7 +211,17 @@ while True:
             print("Opening Binance")
             speak("Opening Binance")
             webbrowser.get(browser).open("https://www.binance.com")
-        
+
+        elif "open" in query and "kucoin" in query:
+            print("Opening Kucoin")
+            speak("Opening Kucoin")
+            webbrowser.get(browser).open("https://www.kucoin.com")
+
+        elif "open" in query and "coinbase" in query:
+            print("Opening Coinbase")
+            speak("Opening Coinbase")
+            webbrowser.get(browser).open("https://www.coinbase.com")
+
         elif "open" in query and "github" in query:
             print("Opening Github")
             speak("Opening Github")
